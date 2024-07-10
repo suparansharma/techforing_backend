@@ -11,8 +11,10 @@ class Jobcontroller extends Controller
 
         $data = [
             'dept' => $req->input('dept'),
-            'vacancy' => $req->input('vacancy'),
-            'category' => intval($req->input('category')),
+            'vacancy' => intval($req->input('vacancy')),
+            'category' => $req->input('category'),
+            'area' => $req->input('area'),
+            'company_name' => $req->input('company_name'),
             
         ];
 
@@ -24,8 +26,7 @@ class Jobcontroller extends Controller
         }
 
         return response()->json(['message' => 'User created successfully.']);
-        // return $req->file('file')->store('jobs');
-        // return "hello";
+        
     }
 
     public function updateJob(Request $req, $id)
@@ -34,6 +35,8 @@ class Jobcontroller extends Controller
             'dept' => $req->input('dept'),
             'vacancy' => $req->input('vacancy'),
             'category' => $req->input('category'),
+            'area' => $req->input('area'),
+            'company_name' => $req->input('company_name'),
         ];
 
         try {
@@ -73,7 +76,7 @@ class Jobcontroller extends Controller
     public function getAllJobs()
     {
         try {
-            // Fetch all jobs from the 'jobs' table
+            
             $jobs = DB::table('jobs')->get();
 
             return response()->json($jobs, 200);
@@ -81,4 +84,22 @@ class Jobcontroller extends Controller
             return response()->json(['message' => 'Failed to fetch jobs.'], 500);
         }
     }
+
+    public function getJobInfo($id)
+{
+    try {
+        
+        $job = DB::table('jobs')
+            ->where('id', $id)
+            ->first();
+
+        if ($job) {
+            return response()->json(['job' => $job], 200);
+        } else {
+            return response()->json(['message' => 'Job not found.'], 404);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Failed to retrieve job information.'], 500);
+    }
+}
 }

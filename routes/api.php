@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class,'login']);
 Route::post('/register', [UserController::class,'register']);
+Route::get('/showAlljobs', [JobController::class, 'getAllJobs']);
 
 Route::group(['middleware' => 'api',], function ($router) {
 
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'api',], function ($router) {
     Route::put('/updateJob/{id}', [JobController::class, 'updateJob']);
     Route::delete('/deleteJob/{id}', [JobController::class, 'deleteJob']);
     Route::get('/jobs', [JobController::class, 'getAllJobs']);
+    Route::get('/job/{id}', [JobController::class, 'getJobInfo']);
 
 
 
